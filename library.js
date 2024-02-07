@@ -30,7 +30,31 @@ const library = {
       name: "Other Playlist",
       tracks: ["t03"]
     }
-  }
+  },
+  printPlaylists: function() {
+    for (let playlistId in this.playlists) {
+      let playlist = this.playlists[playlistId];
+      console.log(`${playlistId}: ${playlist.name} - ${playlist.tracks.length} tracks`);
+    }
+  },
+  printTracks: function() {
+    for (key in this.tracks) {
+      let trackNames = this.tracks[key];
+      console.log(`${trackNames.id}: ${trackNames.name} by ${trackNames.artist} (${trackNames.album})`)
+    }
+  },
+  printPlaylist: function(playlistId) {
+    for (p in this.playlists) {
+      let playlist = this.playlists[p];
+      if (p === playlistId) {
+        console.log(`${playlist.id}: ${playlist.name} - ${playlist.tracks.length}`);
+        for (trackId of playlist.tracks) {
+          let printTracks = this.tracks[trackId];
+          console.log(`${printTracks.id}: ${printTracks.name} by ${printTracks.artist} (${printTracks.album})`);
+        }
+      }
+    }
+  },
 };
 
 /////////////////////////////
@@ -41,17 +65,7 @@ const library = {
 // p01: Coding Music - 2 tracks
 // p02: Other Playlist - 1 tracks
 
-const printPlaylists = function(obj) {
-  // playlist is the key and is looping thru the objects playlist id
-  for (playlistId in obj.playlists) {
-    // declare track as the objects playlist values, which gives us the the whole playlists obj
-    let track = obj.playlists[playlistId];
-    // we declare list as the template literals, using the track obj keys to get the val
-    const list = `${track.id}: ${track.name} - ${track.tracks.length} tracks`;
-    console.log(list);
-  }
-
-};
+//library.printPlaylists();
 
 //printPlaylists(library);
 
@@ -60,14 +74,7 @@ const printPlaylists = function(obj) {
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 // t03: Four Thirty-Three by John Cage (Woodstock 1952)
 
-const printTracks = function(obj) {
-  const { tracks } = obj;
-  for (key in tracks) {
-    const { id, name, artist, album } = tracks[key];
-    let val = `${id}: ${name} by ${artist} (${album})`;
-    console.log(val);
-  }
-};
+//library.printTracks();
 
 //printTracks(library);
 // prints a list of tracks for a given playlist, using the following format:
@@ -75,29 +82,7 @@ const printTracks = function(obj) {
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 
-const printPlaylist = function(playlistId) {
-  // declaring and destructruring library.playlists
-  const { playlists } = library;
-  //loop key in playlists
-  for (p in playlists) {
-    //declaring playlist as the key of playlists obj
-    let playlist = playlists[p];
-    // using cond to see if the key is equal to arg param
-    if (p === playlistId) {
-      //if so, console log the playlist
-      console.log(`${playlist.id}: ${playlist.name} - ${playlist.tracks.length} tracks`);
-      //then we loop trackID key in playlists.tracks arr
-      for (trackId of playlist.tracks) {
-        //we then use the trackId key to loop thru library.tracks obj only if the condition is met and it exists on the playlist tracks array, and assign it
-        let printTracks = library.tracks[trackId];
-        console.log(`${printTracks.id}: ${printTracks.name} by ${printTracks.artist} (${printTracks.album})`);
-
-      }
-    }
-
-  }
-
-};
+library.printPlaylist("p02");
 
 //printPlaylist("p01");
 
@@ -138,7 +123,7 @@ const addTrack = function(name, artist, album) {
   //placing newTrack into library.tracks
   library.tracks[newTrack.id] = newTrack;
 
-  console.log(library.tracks)
+  console.log(library.tracks);
 
 };
 
@@ -157,10 +142,10 @@ const addPlaylist = function(name) {
 
   // add newPlaylist obj into library.playlists
   library.playlists[newPlaylist.id] = newPlaylist;
-  console.log(library.playlists)
+  console.log(library.playlists);
 
 };
-addPlaylist("Deez")
+//addPlaylist("Deez");
 
 // STRETCH:
 // given a query string string, prints a list of tracks
