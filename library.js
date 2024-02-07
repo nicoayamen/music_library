@@ -64,7 +64,7 @@ const printTracks = function(obj) {
   const { tracks } = obj;
   for (key in tracks) {
     const { id, name, artist, album } = tracks[key];
-    let val = `${id}: ${name} by ${artist} (${album})`
+    let val = `${id}: ${name} by ${artist} (${album})`;
     console.log(val);
   }
 };
@@ -76,28 +76,47 @@ const printTracks = function(obj) {
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 
 const printPlaylist = function(playlistId) {
+  // declaring and destructruring library.playlists
   const { playlists } = library;
-  //console.log("444", playlists)
-  //const { tracks } = library;
+  //loop key in playlists
   for (p in playlists) {
-    //console.log("!!!" , p);
-    let track = playlists[p];
-   // console.log("@@@" , track)
+    //declaring playlist as the key of playlists obj
+    let playlist = playlists[p];
+    // using cond to see if the key is equal to arg param
     if (p === playlistId) {
-      console.log(`${track.id}: ${track.name} - ${track.tracks.length} tracks`);
+      //if so, console log the playlist
+      console.log(`${playlist.id}: ${playlist.name} - ${playlist.tracks.length} tracks`);
+      //then we loop trackID key in playlists.tracks arr
+      for (trackId of playlist.tracks) {
+        //we then use the trackId key to loop thru library.tracks obj only if the condition is met and it exists on the playlist tracks array, and assign it
+        let printTracks = library.tracks[trackId];
+        console.log(`${printTracks.id}: ${printTracks.name} by ${printTracks.artist} (${printTracks.album})`);
+
+      }
     }
+
   }
-  //for (key1 in playlists) {
-    //console.log(key1);
- // }
+
 };
 
-printPlaylist("p02");
+//printPlaylist("p01");
 
 // adds an existing track to an existing playlist
 const addTrackToPlaylist = function(trackId, playlistId) {
+  const { playlists } = library;
+  for (p in playlists) {
+    let playlist = playlists[p];
+    if (p === playlistId && !playlist.tracks.includes(trackId)) {
+      playlist.tracks.push(trackId);
+      console.log(playlist.tracks);
+
+    }
+
+  }
 
 };
+
+//addTrackToPlaylist("t01", "p02");
 
 
 // generates a unique id
@@ -109,15 +128,39 @@ const generateUid = function() {
 
 // adds a track to the library
 const addTrack = function(name, artist, album) {
+  //create a new object to add into library.tracks obj
+  let newTrack = {
+    id: `${generateUid()}`,
+    name: name,
+    artist: artist,
+    album: album,
+  };
+  //placing newTrack into library.tracks
+  library.tracks[newTrack.id] = newTrack;
+
+  console.log(library.tracks)
 
 };
 
+//addTrack("Bill Nye the Science Guy", "Bill Nye", "Classic Hits");
 
 // adds a playlist to the library
 const addPlaylist = function(name) {
+  //gives us an array of all the tracks obj
+  let tracks = Object.keys(library.tracks);
+  // declare a new obj to go into playlists
+  const newPlaylist = {
+    id: `${generateUid()}`,
+    name: name,
+    tracks: tracks,
+  };
+
+  // add newPlaylist obj into library.playlists
+  library.playlists[newPlaylist.id] = newPlaylist;
+  console.log(library.playlists)
 
 };
-
+addPlaylist("Deez")
 
 // STRETCH:
 // given a query string string, prints a list of tracks
