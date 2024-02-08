@@ -40,7 +40,7 @@ const library = {
   printTracks: function() {
     for (key in this.tracks) {
       let trackNames = this.tracks[key];
-      console.log(`${trackNames.id}: ${trackNames.name} by ${trackNames.artist} (${trackNames.album})`)
+      console.log(`${trackNames.id}: ${trackNames.name} by ${trackNames.artist} (${trackNames.album})`);
     }
   },
   printPlaylist: function(playlistId) {
@@ -54,6 +54,44 @@ const library = {
         }
       }
     }
+  },
+  addTrackToPlaylist: function(trackId, playlistId) {
+    for (p in this.playlists) {
+      let playlist = this.playlists[p];
+      if (p === playlistId && !playlist.tracks.includes(trackId)) {
+        playlist.tracks.push(trackId);
+        console.log(playlist.tracks);
+      }
+    }
+  },
+  addTrack: function(name, artist, album) {
+    //create a new object to add into library.tracks obj
+    let newTrack = {
+      id: `${generateUid()}`,
+      name: name,
+      artist: artist,
+      album: album,
+    };
+    //placing newTrack into library.tracks
+    this.tracks[newTrack.id] = newTrack;
+  
+    console.log(this.tracks);
+  
+  },
+  addPlaylist: function(name) {
+    //gives us an array of all the tracks obj
+    let tracks = Object.keys(this.tracks);
+    // declare a new obj to go into playlists
+    const newPlaylist = {
+      id: `${generateUid()}`,
+      name: name,
+      tracks: tracks,
+    };
+  
+    // add newPlaylist obj into library.playlists
+    this.playlists[newPlaylist.id] = newPlaylist;
+    console.log(this.playlists);
+  
   },
 };
 
@@ -82,10 +120,11 @@ const library = {
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 
-library.printPlaylist("p02");
+//library.printPlaylist("p01");
 
 //printPlaylist("p01");
 
+/*
 // adds an existing track to an existing playlist
 const addTrackToPlaylist = function(trackId, playlistId) {
   const { playlists } = library;
@@ -101,7 +140,7 @@ const addTrackToPlaylist = function(trackId, playlistId) {
 
 };
 
-//addTrackToPlaylist("t01", "p02");
+//library.addTrackToPlaylist("t03", "p01");
 
 
 // generates a unique id
@@ -127,7 +166,7 @@ const addTrack = function(name, artist, album) {
 
 };
 
-//addTrack("Bill Nye the Science Guy", "Bill Nye", "Classic Hits");
+//library.addTrack("Bill Nye the Science Guy", "Bill Nye", "Classic Hits");
 
 // adds a playlist to the library
 const addPlaylist = function(name) {
@@ -145,7 +184,7 @@ const addPlaylist = function(name) {
   console.log(library.playlists);
 
 };
-//addPlaylist("Deez");
+library.addPlaylist("Deez");
 
 // STRETCH:
 // given a query string string, prints a list of tracks
@@ -154,4 +193,4 @@ const addPlaylist = function(name) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
 const printSearchResults = function(query) {
 
-};
+}; */
